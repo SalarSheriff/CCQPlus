@@ -1,0 +1,14 @@
+{
+  "name": "ccq-plus",
+  "version": "1.0.0",
+  "description": "An App For the West Point CCQ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Salar Sheriff",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
