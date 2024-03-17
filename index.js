@@ -35,6 +35,7 @@ app.set('view engine', 'ejs');
 
 const PORT = process.env.PORT || 3000
 const { v4: uuidv4 } = require('uuid');
+const e = require('express');
 
 
 
@@ -53,7 +54,46 @@ let currentShiftDuration = ""
 
 
 app.get('/home', (req, res) => {
-    res.render('home', {cadetname: currentCadet, assumetime: currentAssumeTime, shiftduration: currentShiftDuration});
+
+
+    //If the server resets due to inactivity, fetch and update the latest data from the server
+    if (currentCadet == "") {
+        var request = require("request");
+
+        var options = {
+            method: 'GET',
+            url: 'https://ccqplus-09cf.restdb.io/rest/qlog',
+            headers:
+            {
+                'cache-control': 'no-cache',
+                'x-apikey': 'eade1f90254f4c9de8a0efde3c860c244ce6a'
+            }
+        };
+
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+
+
+            let data = JSON.parse(body);
+            let latestLog = data[data.length-1] //2nd last is the last log
+
+            currentCadet = latestLog.name;
+            currentAssumeTime = latestLog.time;
+            currentShiftDuration = latestLog.shiftduration;
+            
+            res.render('home', {cadetname: currentCadet, assumetime: currentAssumeTime, shiftduration: currentShiftDuration});
+        });
+    }
+
+    //If server did not sleep
+    else {
+        res.render('home', {cadetname: currentCadet, assumetime: currentAssumeTime, shiftduration: currentShiftDuration});
+    }
+
+
+
+
+   
 });
 
 app.get("/", function (req, res) {
@@ -108,7 +148,7 @@ app.post("/signin", function (req, res) {
             'x-apikey': 'eade1f90254f4c9de8a0efde3c860c244ce6a',
             'content-type': 'application/json'
         },
-        body: { name: cadetname, time: getCurrentMilitaryTime() , message: 'CDT ' + cadetname + " assumes the CCQ", action:'assumes'},
+        body: { name: cadetname, time: getCurrentMilitaryTime() , message: 'CDT ' + cadetname + " assumes the CCQ", action:'assumes', shiftduration: shiftDuration},
         json: true
     };
 
