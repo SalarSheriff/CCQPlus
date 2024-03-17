@@ -1,3 +1,19 @@
+/*
+
+
+git add .
+git commit -m ""
+git push -u origin main
+
+Server hosted on Render
+Database on RESTDB
+
+*/
+
+
+
+
+
 const express = require('express')
 const path = require('path')
 const fs = require('fs');
@@ -13,10 +29,32 @@ app.use(express.urlencoded({ extended: true }));
 
 //used to serve static files
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.set('view engine', 'ejs');
+
+
 const PORT = process.env.PORT || 3000
 const { v4: uuidv4 } = require('uuid');
 
 
+
+
+
+//Variables used by app
+//IF these are lost by the due to server resets, create a method to restore these variables by pulling from the data base
+let currentCadet = ""
+let currentAssumeTime = ""
+let currentShiftDuration = ""
+
+
+
+
+
+
+
+app.get('/home', (req, res) => {
+    res.render('home', {cadetname: currentCadet, assumetime: currentAssumeTime, shiftduration: currentShiftDuration});
+});
 
 app.get("/", function (req, res) {
     res.sendFile(__dirname + "/signin.html");
@@ -53,9 +91,11 @@ app.get("/getqlog", function (req, res) {
 app.post("/signin", function (req, res) {
 
     let cadetname = req.body.cadetname.toString();
-
-    
-
+    let shiftDuration = parseInt(req.body.shiftduration.toString());
+    //Store who is curretnly monitoring the Q
+    currentCadet = cadetname;
+    currentShiftDuration = shiftDuration;
+    currentAssumeTime = getCurrentMilitaryTime();
 
 
     //Add assuming duty to the log
@@ -75,7 +115,7 @@ app.post("/signin", function (req, res) {
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
 
-        console.log(body);
+        res.redirect("/home")
     });
 
 })
@@ -89,6 +129,7 @@ function getCurrentMilitaryTime() {
     return `${hours}:${minutes}:${seconds}`;
   }
 
+  
 
 
 

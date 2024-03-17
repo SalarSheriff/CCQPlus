@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCQ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+</head>
+<body>
+   
+
+
+    <h1>Hey <%= cadetname %></h1>
+    <p>Assumed CCQ at <%= assumetime%></p>
+    <p id="shiftinformation">Time Left: xyx</p>
+    <!-- Bootstrap JavaScript from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+
+        
+function getCurrentMilitaryTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  function getShiftElapsedTime() {
+    // Calculate the difference between the current time and the initial time
+    const currentTime = getCurrentMilitaryTime();
+    const initialTimeArray = "<%= assumetime %>".split(':').map(Number);
+    const currentTimeArray = currentTime.split(':').map(Number);
+    
+    let hoursLeft = currentTimeArray[0] - initialTimeArray[0];
+    let minutesLeft = currentTimeArray[1] - initialTimeArray[1];
+    
+    // Adjust hours and minutes if they're negative
+    if (minutesLeft < 0) {
+        hoursLeft -= 1;
+        minutesLeft += 60;
+    }
+    if (hoursLeft < 0) {
+        hoursLeft += 24; // Assuming 24-hour time format
+    }
+
+    return `${hoursLeft.toString().padStart(2, '0')}:${minutesLeft.toString().padStart(2, '0')}`;
+}
+
+
+const shiftInformationDisplay = document.querySelector('#shiftinformation');
+
+setInterval(() => {
+ 
+    shiftInformationDisplay.textContent = "Elapsed Time: " + getShiftElapsedTime() + " of <%= shiftduration%> hours";
+}, 1000);
+
+
+
+    </script>
+</body>
+</html>
