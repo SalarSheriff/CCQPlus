@@ -122,10 +122,18 @@ app.post("/signin", function (req, res) {
 
 function getCurrentMilitaryTime() {
     const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
     
+    // Convert the current time to EST
+    const estOptions = {timeZone: 'America/New_York'};
+    const estTime = now.toLocaleString('en-US', estOptions);
+    const estDate = new Date(estTime);
+    
+    // Get the hours, minutes, and seconds in EST
+    const hours = estDate.getHours().toString().padStart(2, '0');
+    const minutes = estDate.getMinutes().toString().padStart(2, '0');
+    const seconds = estDate.getSeconds().toString().padStart(2, '0');
+    
+    // Return the time in the same format
     return `${hours}:${minutes}:${seconds}`;
   }
 
