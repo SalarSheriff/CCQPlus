@@ -145,6 +145,29 @@ app.get("/getqlog", function (req, res) {
 
 
 
+app.get('/endshift/:name',(req, res)=> {
+    //Add assuming duty to the log
+    var options = {
+        method: 'POST',
+        url: 'https://ccqplus-09cf.restdb.io/rest/qlog',
+        headers:
+        {
+            'cache-control': 'no-cache',
+            'x-apikey': 'eade1f90254f4c9de8a0efde3c860c244ce6a',
+            'content-type': 'application/json'
+        },
+        body: { name: req.params.name, time: getCurrentMilitaryTime(),  message: req.params.name + " was relieved from the Q", action: "relieved"},
+        json: true
+    };
+
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+
+        res.send("good!")
+    });
+
+})
+
 app.get('/uploadpresencepatrol/:name/:time/:message/:action', (req, res) => {
     console.log(req.params)
 
