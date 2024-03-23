@@ -75,7 +75,22 @@ app.get('/home', (req, res) => {
 
 
             let data = JSON.parse(body);
-            let latestLog = data[data.length-1] //2nd last is the last log
+            
+
+
+            //get the last log of type "assume", if we just pick the last log, then it could be a presence patrol.
+            //this way we get the latest person on the doc
+            let assumeLogs = []
+
+            data.forEach(log => {
+                if (log.action == "assumes") {
+                    assumeLogs.push(log)
+                }
+            });
+            let latestLog = assumeLogs[assumeLogs.length - 1]; //2nd last is the last log
+
+
+
 
             currentCadet = latestLog.name;
             currentAssumeTime = latestLog.time;
@@ -127,6 +142,35 @@ app.get("/getqlog", function (req, res) {
 
 
 })
+
+
+
+app.get('/uploadpresencepatrol/:name/:time/:message/:action', (req, res) => {
+    console.log(req.params)
+
+    //Add assuming duty to the log
+    var options = {
+        method: 'POST',
+        url: 'https://ccqplus-09cf.restdb.io/rest/qlog',
+        headers:
+        {
+            'cache-control': 'no-cache',
+            'x-apikey': 'eade1f90254f4c9de8a0efde3c860c244ce6a',
+            'content-type': 'application/json'
+        },
+        body: { name: req.params.name, time: req.params.time,  message: req.params.message, action: req.params.action,time_end: getCurrentMilitaryTime()},
+        json: true
+    };
+
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+
+        res.send("good!")
+    });
+
+
+})
+
 
 app.post("/signin", function (req, res) {
 

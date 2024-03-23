@@ -14,6 +14,12 @@
     <h1>Hey <%= cadetname %></h1>
     <p>Assumed CCQ at <%= assumetime%></p>
     <p id="shiftinformation">Time Left: xyx</p>
+
+
+
+    <button id="presencepatrolbtn" onclick="presencePatrol()" type="button" class="btn btn-primary">Begin Presence Patrol</button>
+
+
     <!-- Bootstrap JavaScript from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -58,6 +64,80 @@ setInterval(() => {
  
     shiftInformationDisplay.textContent = "Elapsed Time: " + getShiftElapsedTime() + " of <%= shiftduration%> hours";
 }, 1000);
+
+
+let onPatrol = false;
+let timeOnPatrol = 0;
+let presencePatrolStartTime = getCurrentMilitaryTime();
+let presencePatrolBtn = document.querySelector("#presencepatrolbtn");
+let timer;// has to be global so it can be cleared later
+function presencePatrol() {
+
+    if(!onPatrol) {
+
+        onPatrol = true;
+        timer = setInterval(()=> {
+        timeOnPatrol += 1;
+        presencePatrolBtn.textContent = "Currently on Presence Patrol for: " + timeOnPatrol + "\n Click to end patrol";
+        presencePatrolBtn.classList.remove("btn-primary");
+        presencePatrolBtn.classList.add("btn-warning");
+
+
+
+
+
+    }, 1000)
+
+
+
+
+
+    }
+    else if(onPatrol) {
+        clearInterval(timer);
+        onPatrol = false;
+        presencePatrolBtn.classList.add("btn-primary");
+        presencePatrolBtn.classList.remove("btn-warning");
+        presencePatrolBtn.textContent = "Begin Presence Patrol";
+
+
+
+        let message = prompt("<%= cadetname %>, Input any remarks from the presence patrol.")
+
+
+
+
+        alert("Thank you <%= cadetname %>, your remarks have been noted!")
+
+
+
+        
+//Send Log to server of starting presnece patrol
+    //Send request to node js server, then to database
+
+
+
+        timeOnPatrol = 0;
+        
+        
+
+
+        //The end time of the presence patrol is covered on the server side. The server just gets the current time and uses that as the end time
+        fetch(document.location.origin + '/uploadpresencepatrol/<%=cadetname%>/' + presencePatrolStartTime + '/' + message + '/' + "patrol").then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        }).then(data => {
+           
+        }).catch(error => {
+            console.error('There was a problem with your fetch operation:', error);
+        });
+
+    }
+    
+}
+
 
 
 

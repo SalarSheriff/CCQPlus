@@ -1,0 +1,10 @@
+Ability to sign out cadets
+- CCQ has input field for cadet name then toggle for type of signout
+
+
+
+Presence Patrol
+- Button that starts green("BEGIN PRESENCE PATROL")
+- When clicked, displays timer as text and says click to end presnece Patrol
+- Once clicked to end, alert asking for any remarks as input
+- post to server
