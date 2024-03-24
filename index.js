@@ -56,8 +56,7 @@ let currentShiftDuration = ""
 app.get('/home', (req, res) => {
 
 
-    //If the server resets due to inactivity, fetch and update the latest data from the server
-    if (currentCadet == "") {
+    
         var request = require("request");
 
         var options = {
@@ -96,14 +95,11 @@ app.get('/home', (req, res) => {
             currentAssumeTime = latestLog.time;
             currentShiftDuration = latestLog.shiftduration;
             
-            res.render('home', {cadetname: currentCadet, assumetime: currentAssumeTime, shiftduration: currentShiftDuration});
+            res.render('home', {cadetname: currentCadet, assumetime: currentAssumeTime, shiftduration: currentShiftDuration, logs: data});
         });
-    }
+    
 
-    //If server did not sleep
-    else {
-        res.render('home', {cadetname: currentCadet, assumetime: currentAssumeTime, shiftduration: currentShiftDuration});
-    }
+    
 
 
 

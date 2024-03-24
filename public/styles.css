@@ -1,0 +1,6 @@
+.scrollable-table {
+    overflow: auto; /* This enables scrolling */
+    border: 1px solid #ccc; /* Optional: Add border for visual clarity */
+    height: 300px; /* Adjust height as needed */
+
+}

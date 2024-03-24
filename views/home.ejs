@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCQ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
    
 
     <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="card">
               <div class="card-body">
                 <h1>Hey <%= cadetname %></h1>
@@ -24,6 +24,36 @@
                 <button id="presencepatrolbtn" onclick="presencePatrol()" type="button" class="btn btn-primary">Begin Presence Patrol</button>
                 <button id="endshiftbtn" onclick="endShift()" type="button" class="btn btn-danger">End Shift</button>
 
+
+
+                <h1>Logs</h1>
+                    <div id="scrollable_table" class="scrollable-table">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Time In</th>
+                            <th scope="col">TimeOut</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Message</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <% for(let i = 0; i < logs.length; i++ ){ %>
+                          <tr>
+                           
+                            <td><%= logs[i].time %></td>
+                            <td><%= logs[i].time_end %></td>
+                            <td><%= logs[i].name %></td>
+                            <td><%= logs[i].message %></td>
+                            <td><%= logs[i].action %></td>
+                          </tr>
+                        <% } %>
+                        </tbody>
+                      </table>
+                    </div>
+            
+               
               </div>
             </div>
           </div>
@@ -39,7 +69,13 @@
 
     <script>
 
-        
+
+// Execute this code after the content is loaded
+document.addEventListener("DOMContentLoaded", function() {
+    // Scroll table display to bottom
+    let scrollTable = document.querySelector("#scrollable_table");
+    scrollTable.scrollTop = scrollTable.scrollHeight;
+});
 
 
 
@@ -139,33 +175,34 @@ function presencePatrol() {
 
 
         //The end time of the presence patrol is covered on the server side. The server just gets the current time and uses that as the end time
-        fetch(document.location.origin + '/uploadpresencepatrol/<%=cadetname%>/' + presencePatrolStartTime + '/' + message + '/' + "patrol").then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        }).then(data => {
-           
-        }).catch(error => {
-            console.error('There was a problem with your fetch operation:', error);
-        });
+        fetch(document.location.origin + '/uploadpresencepatrol/<%=cadetname%>/' + presencePatrolStartTime + '/' + message + '/' + "patrol").then(()=> {
+            location.reload();
+            
+        })
 
+        
+       
     }
     
 }
 
 function endShift() {
     //The end time of the presence patrol is covered on the server side. The server just gets the current time and uses that as the end time
-    fetch(document.location.origin + '/endshift/<%= cadetname %>').then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        }).then(data => {
+    fetch(document.location.origin + '/endshift/<%= cadetname %>')
+    // .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         return response.json();
+    //     }).then(data => {
            
-        }).catch(error => {
-            console.error('There was a problem with your fetch operation:', error);
-        });
+    //     }).catch(error => {
+    //         console.error('There was a problem with your fetch operation:', error);
+    //     });
+
+
+        //send back to login
+        window.location.href = "/";
 }
 
 
