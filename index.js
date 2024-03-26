@@ -153,6 +153,31 @@ app.get("/getqlog", function (req, res) {
 
 
 
+
+app.get("/ptbreak/:name/:duration", (req, res)=> {
+
+var options = {
+    method: 'POST',
+    url: 'https://ccqplus-09cf.restdb.io/rest/qlog',
+    headers:
+    {
+        'cache-control': 'no-cache',
+        'x-apikey': 'eade1f90254f4c9de8a0efde3c860c244ce6a',
+        'content-type': 'application/json'
+    },
+    body: { name: req.params.name, time: getCurrentMilitaryTimeShifted(-parseInt(req.params.duration)),  message: req.params.name + " conducted PT", action: "pt break", time_end: getCurrentMilitaryTime(), sort_date_time: getCurrentESTDateTime()},
+    json: true
+};
+
+request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+
+    res.send("good!")
+});
+
+})
+
+
 app.get('/endshift/:name',(req, res)=> {
     //Add assuming duty to the log
     var options = {
@@ -251,6 +276,25 @@ function getCurrentMilitaryTime() {
     // Return the time in the same format
     return `${hours}:${minutes}:${seconds}`;
   }
+  function getCurrentMilitaryTimeShifted(shift) {
+    const now = new Date();
+
+    // Apply the shift to the current time
+    now.setMinutes(now.getMinutes() + shift);
+
+    // Convert the adjusted time to EST
+    const estOptions = {timeZone: 'America/New_York'};
+    const estTime = now.toLocaleString('en-US', estOptions);
+    const estDate = new Date(estTime);
+    
+    // Get the hours, minutes, and seconds in EST
+    const hours = estDate.getHours().toString().padStart(2, '0');
+    const minutes = estDate.getMinutes().toString().padStart(2, '0');
+    const seconds = estDate.getSeconds().toString().padStart(2, '0');
+    
+    // Return the time in the same format
+    return `${hours}:${minutes}:${seconds}`;
+}
 
   /*This function will store the exact year month day hour minute and second and will be added to all
    messages stored in the RESTDB so that they can be sorted by this parameter "sort_date_time"

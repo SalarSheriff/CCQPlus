@@ -22,9 +22,17 @@
 
 
                 <button id="presencepatrolbtn" onclick="presencePatrol()" type="button" class="btn btn-primary">Begin Presence Patrol</button>
+                <br>
                 <button id="endshiftbtn" onclick="endShift()" type="button" class="btn btn-danger">End Shift</button>
-
-
+                <br>
+                
+                <select name="ptduration" id="ptduration" >
+                    <option value="30">30 min</option>
+                    <option value="60">1 hour</option>
+                    <option value="90">1 hour 30 min</option>
+                    
+                  </select>
+                <button class="btn btn-info" onclick="uploadPTBreak()">Input PT Break</button>
 
                 <h1>Logs</h1>
                 <div id="scrollable_table" class="scrollable-table">
@@ -206,6 +214,12 @@ function endShift() {
 
         //send back to login
         window.location.href = "/";
+}
+function uploadPTBreak() {
+    let ptBreakDuration = document.querySelector("#ptduration").value;
+    fetch(document.location.origin + '/ptbreak/<%= cadetname %>/' + ptBreakDuration).then(()=> {
+        location.reload();
+    });
 }
 
 
