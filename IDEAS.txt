@@ -1,7 +1,11 @@
 Ability to sign out cadets
 - CCQ has input field for cadet name then toggle for type of signout
 
-PT Break feature
+
+Add filter selector to /getqlog
+- When select a filter, add a tab which shows that the filter is active with an x to disable
+
+
 
 Make it look futursitc like the situation room
 - 

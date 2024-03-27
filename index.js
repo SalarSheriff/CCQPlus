@@ -8,6 +8,8 @@ git push -u origin main
 Server hosted on Render
 Database on RESTDB
 
+
+
 */
 
 
@@ -143,7 +145,8 @@ app.get("/getqlog", function (req, res) {
 
 
         let data = JSON.parse(body);
-        res.send(data);
+        
+        res.render("qlog", {logs: data});
     });
 
 

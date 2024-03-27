@@ -23,9 +23,6 @@
 
                 <button id="presencepatrolbtn" onclick="presencePatrol()" type="button" class="btn btn-primary">Begin Presence Patrol</button>
                 <br>
-                <button id="endshiftbtn" onclick="endShift()" type="button" class="btn btn-danger">End Shift</button>
-                <br>
-                
                 <select name="ptduration" id="ptduration" >
                     <option value="30">30 min</option>
                     <option value="60">1 hour</option>
@@ -33,7 +30,11 @@
                     
                   </select>
                 <button class="btn btn-info" onclick="uploadPTBreak()">Input PT Break</button>
+                <br>
+                <button id="endshiftbtn" onclick="endShift()" type="button" class="btn btn-danger">End Shift</button>
+                <br>
 
+                
                 <h1>Logs</h1>
                 <div id="scrollable_table" class="scrollable-table">
                     <table class="table">
