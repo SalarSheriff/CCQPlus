@@ -23,6 +23,8 @@ var request = require("request");
 
 
 
+
+
 const app = express()
 
 //Be able to parse post data
@@ -48,8 +50,6 @@ const e = require('express');
 let currentCadet = ""
 let currentAssumeTime = ""
 let currentShiftDuration = ""
-
-
 
 
 

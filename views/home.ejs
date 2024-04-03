@@ -22,6 +22,7 @@
 
 
                 <button id="presencepatrolbtn" onclick="presencePatrol()" type="button" class="btn btn-primary">Begin Presence Patrol</button>
+         
                 <br>
                 <select name="ptduration" id="ptduration" >
                     <option value="30">30 min</option>
@@ -30,6 +31,7 @@
                     
                   </select>
                 <button class="btn btn-info" onclick="uploadPTBreak()">Input PT Break</button>
+    
                 <br>
                 <button id="endshiftbtn" onclick="endShift()" type="button" class="btn btn-danger">End Shift</button>
                 <br>
@@ -53,11 +55,11 @@
                         <% for(let i = 0; i < logs.length; i++ ){ %>
                           <tr>
                            
-                            <td><%= logs[i].time %></td>
-                            <td><%= logs[i].time_end %></td>
-                            <td><%= logs[i].name %></td>
-                            <td><%= logs[i].message %></td>
-                            <td><%= logs[i].action %></td>
+                            <td class="table-data"><%= logs[i].time %></td>
+                            <td class="table-data"><%= logs[i].time_end %></td>
+                            <td class="table-data"><%= logs[i].name %></td>
+                            <td class="table-data"><%= logs[i].message %></td>
+                            <td class="table-data"><%= logs[i].action %></td>
                           </tr>
                         <% } %>
                         </tbody>

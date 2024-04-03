@@ -12,19 +12,3 @@
     background-color: #fff; /* Adjust as needed */
     z-index: 1;
 }
-
-
-
-
-.table-data {
-    word-wrap: break-word;
-    word-break: break-word;
-    max-width: 150px; /* Adjust based on your needs */
-}
-
-/* Media query for mobile screens */
-@media (max-width: 600px) {
-    .table-data {
-        font-size: .8rem;
-    }
-}
