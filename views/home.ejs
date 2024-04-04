@@ -53,7 +53,17 @@
                    
                             
                         <% for(let i = 0; i < logs.length; i++ ){ %>
-                          <tr>
+
+
+                          <%  if( i > 0 && parseInt(logs[i].sort_date_time.substr(5, 6)) > parseInt(logs[i-1].sort_date_time.substr(5, 6))) {%>
+                            
+                            <tr>
+                            <td colspan="5" class="new-day-col">NEW DAY</td>
+                          </tr>
+                          <% } %>
+                          
+                       
+                            <tr>
                            
                             <td class="table-data"><%= logs[i].time %></td>
                             <td class="table-data"><%= logs[i].time_end %></td>
@@ -61,6 +71,8 @@
                             <td class="table-data"><%= logs[i].message %></td>
                             <td class="table-data"><%= logs[i].action %></td>
                           </tr>
+
+                        
                         <% } %>
                         </tbody>
                    

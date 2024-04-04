@@ -22,6 +22,11 @@
     max-width: 150px; /* Adjust based on your needs */
 }
 
+
+.new-day-col {
+    text-align: center; /* Centers text horizontally */
+    vertical-align: middle; /* Centers content vertically */
+}
 /* Media query for mobile screens */
 @media (max-width: 600px) {
     .table-data {
