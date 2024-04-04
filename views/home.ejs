@@ -55,10 +55,10 @@
                         <% for(let i = 0; i < logs.length; i++ ){ %>
 
 
-                          <%  if( i > 0 && parseInt(logs[i].sort_date_time.substr(5, 6)) > parseInt(logs[i-1].sort_date_time.substr(5, 6))) {%>
+                          <%  if( i > 0 && parseInt(logs[i].sort_date_time.substr(6, 2)) > parseInt(logs[i-1].sort_date_time.substr(6, 2))) {%>
                             
                             <tr>
-                            <td colspan="5" class="new-day-col">NEW DAY</td>
+                            <td colspan="5" class="new-day-col">NEW DAY <%= logs[i].sort_date_time.substr(4, 2) %>/<%= logs[i].sort_date_time.substr(6, 2) %>/<%= logs[i].sort_date_time.substr(2, 2) %></td>
                           </tr>
                           <% } %>
                           
